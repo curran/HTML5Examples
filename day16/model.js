@@ -18,3 +18,4 @@ var model = (function(){
         }
     };
 })();
+model.setEquation("y = sin(x+time)");
