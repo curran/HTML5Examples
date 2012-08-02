@@ -1,0 +1,11 @@
+<html>
+  <body>
+    <form>
+      <input type="text" name="inputbox" value = "y = sin(x + time)">
+      <input type="button" value="Plot" onClick="plotButtonClicked(this.form.inputbox.value)">
+    </form>
+    <canvas id="canvas" width="400" height="400" />
+    <script src="requestAnimFrame.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
