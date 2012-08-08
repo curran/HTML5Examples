@@ -15,7 +15,7 @@ var animate = false;
 function executeFrame(){
   // Execute the next frame in 20ms
   if(animate)
-    setTimeout(executeFrame, 20);
+    requestAnimFrame(executeFrame);
   clearCanvas();
   drawCells();
   iterateSimulation();
