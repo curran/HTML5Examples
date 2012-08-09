@@ -106,9 +106,10 @@ A 2-dimensional numeric simulation of [the Wave equation](http://en.wikipedia.or
 
  * An interactive grid
  * Using luminance to visualize values
+ * Color object re-use optimization
 
 ## Multi-touch Fingerpainting
-[run](mobile/multiTouchFingerpainting/index.html)
+[run](mobile/multiTouchFingerpainting/index.html) (supports multi-touch in iOS devices)
 <iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
         src="mobile/multiTouchFingerpainting/index.html"></iframe>
 
@@ -116,3 +117,4 @@ Multi-touch fingerpainting, where each touch gets its own random color. This exa
 
  * Responding to touch events in iOS devices
  * Tracking stateful objects based on touches
+ * Generating random colors
