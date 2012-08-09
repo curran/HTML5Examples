@@ -13,6 +13,17 @@ Drawing a blue rectangle. This example demonstrates:
  * filling a rectangle
  * using the Canvas pixel coordinate space
 
+## Smiley Face
+[run](canvas/smileyFace.html)
+<iframe width="150" height="150" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+        src="canvas/smileyFace.html"></iframe>
+
+Drawing a smiley face. This example demonstrates:
+
+ * The concept of paths
+ * Drawing circles and arcs using the Canvas functions `beginPath`, `arc`, `fill`, and `stroke`
+ * Fill style vs. stroke style
+
 ## Hello Text!
 [run](canvas/helloText.html)
 <iframe width="400" height="70" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
@@ -25,17 +36,6 @@ Drawing the text "Hello Text!" in gray with a black stroke. This example demonst
  * Setting the stroke style
  * Filling and stroking text
 
-## Smiley Face
-[run](canvas/smileyFace.html)
-<iframe width="150" height="150" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-        src="canvas/smileyFace.html"></iframe>
-
-Drawing a smiley face. This example demonstrates:
-
- * The concept of paths
- * Drawing circles
- * Fill style vs. stroke style
-
 ## Digital Clock
 [run](canvas/digitalClock/index.html)
 <iframe width="400" height="70" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
@@ -44,28 +44,29 @@ Drawing a smiley face. This example demonstrates:
 Drawing the text representing the time of day. This example demonstrates:
 
  * Periodically clearing and redrawing the canvas using `setInterval`
+ * Drawing a background color instead of clearing the canvas to white
+ * Using colors picked by hand with (JSColor)[http://jscolor.com/]
  * Using the JavaScript Date API
  * Eliminating the margin around the canvas using inline CSS on the `body` tag
 
 ## Mouse Follower
-[run](http://code-hub.org/run/23.12), [source](http://code-hub.org/edit/23.12)
+[run](canvas/mouseFollower/index.html)
 <iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
-        src="http://code-hub.org/run/23.12"></iframe>
+        src="canvas/mouseFollower/index.html"></iframe>
 
 Drawing a circle that follows the mouse. This example demonstrates:
 
- * Listening for mouse events `mousemove` and `mouseout`
- * Drawing circles using the Canvas functions `beginPath`, `arc`, and `fill`
+ * Responding to mouse events `mousemove` and `mouseout`
 
 ## Bouncing Ball
-[run](http://code-hub.org/run/24.31), [source](http://code-hub.org/edit/24.31)
-
+[run](canvas/bouncingBall/index.html)
 <iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
-        src="http://code-hub.org/run/24.31"></iframe>
+        src="canvas/bouncingBall/index.html"></iframe>
 
-A bouncing ball that can be swung around with the mouse. Animation is paused when the mouse leaves the canvas. This example demonstrates:
+A bouncing ball that can be swung around with the mouse. This example demonstrates:
 
  * Listening for mouse events `mousedown`, `mouseup`, and `mouseenter`
+ * Animation using `requestAnimationFrame` (through a cross-browser shim)
  * Bouncing physics
  * Velocity vectors
  * Simulation

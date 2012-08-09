@@ -6,10 +6,9 @@ function drawClock() {
     c.fillStyle = 'lightgray';
     c.fillRect(0, 0, canvas.width, canvas.height);
     
-    var x = 10,
-        y = 60;
-    var now = new Date();
-    var h = now.getHours(),
+    // Get the current time
+    var now = new Date(),
+        h = now.getHours(),
         m = now.getMinutes(),
         s = now.getSeconds(),
         ampm = (h < 12 ? 'AM' : 'PM');
@@ -21,10 +20,18 @@ function drawClock() {
     h = addLeadingZeroWhenNecessary(h);
     m = addLeadingZeroWhenNecessary(m);
     s = addLeadingZeroWhenNecessary(s);
-
-    var clockText = h + ':' + m + ':' + s + ' ' + ampm;
+    
+    // Assemble the text
+    var clockText = h + ':' + m + ':' + s + ' ' + ampm,
+        x = 10,
+        y = 60;
+    
+    // This green color was picked
+    // using http://jscolor.com/
+    c.fillStyle = '#00DB84';
+    
+    // Draw the text
     c.font = '50pt Arial';
-    c.fillStyle = '00DB84';
     c.strokeStyle = 'black';
     c.fillText(clockText, x, y);
     c.strokeText(clockText, x, y);
@@ -37,5 +44,5 @@ function addLeadingZeroWhenNecessary(s){
 // Draw the clock right away
 drawClock();
 
-// Then draw the clock every second
+// Then draw the clock every subsequent second
 setInterval(drawClock, 1000);

@@ -16,6 +16,20 @@
 <li>filling a rectangle</li>
 <li>using the Canvas pixel coordinate space</li>
 </ul>
+<h2>Smiley Face</h2>
+<p><a href="canvas/smileyFace.html">run</a>
+</p>
+<iframe width="150" height="150" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+        src="canvas/smileyFace.html"></iframe>
+
+<p>Drawing a smiley face. This example demonstrates:
+
+</p>
+<ul>
+<li>The concept of paths</li>
+<li>Drawing circles and arcs using the Canvas functions <code>beginPath</code>, <code>arc</code>, <code>fill</code>, and <code>stroke</code></li>
+<li>Fill style vs. stroke style</li>
+</ul>
 <h2>Hello Text!</h2>
 <p><a href="canvas/helloText.html">run</a>
 </p>
@@ -31,20 +45,6 @@
 <li>Setting the stroke style</li>
 <li>Filling and stroking text</li>
 </ul>
-<h2>Smiley Face</h2>
-<p><a href="canvas/smileyFace.html">run</a>
-</p>
-<iframe width="150" height="150" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-        src="canvas/smileyFace.html"></iframe>
-
-<p>Drawing a smiley face. This example demonstrates:
-
-</p>
-<ul>
-<li>The concept of paths</li>
-<li>Drawing circles</li>
-<li>Fill style vs. stroke style</li>
-</ul>
 <h2>Digital Clock</h2>
 <p><a href="canvas/digitalClock/index.html">run</a>
 </p>
@@ -56,34 +56,35 @@
 </p>
 <ul>
 <li>Periodically clearing and redrawing the canvas using <code>setInterval</code></li>
+<li>Drawing a background color instead of clearing the canvas to white</li>
+<li>Using colors picked by hand with (JSColor)[<a href="http://jscolor.com/">http://jscolor.com/</a>]</li>
 <li>Using the JavaScript Date API</li>
 <li>Eliminating the margin around the canvas using inline CSS on the <code>body</code> tag</li>
 </ul>
 <h2>Mouse Follower</h2>
-<p><a href="http://code-hub.org/run/23.12">run</a>, <a href="http://code-hub.org/edit/23.12">source</a>
+<p><a href="canvas/mouseFollower/index.html">run</a>
 </p>
 <iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
-        src="http://code-hub.org/run/23.12"></iframe>
+        src="canvas/mouseFollower/index.html"></iframe>
 
 <p>Drawing a circle that follows the mouse. This example demonstrates:
 
 </p>
 <ul>
-<li>Listening for mouse events <code>mousemove</code> and <code>mouseout</code></li>
-<li>Drawing circles using the Canvas functions <code>beginPath</code>, <code>arc</code>, and <code>fill</code></li>
+<li>Responding to mouse events <code>mousemove</code> and <code>mouseout</code></li>
 </ul>
 <h2>Bouncing Ball</h2>
-<p><a href="http://code-hub.org/run/24.31">run</a>, <a href="http://code-hub.org/edit/24.31">source</a>
-
+<p><a href="canvas/bouncingBall/index.html">run</a>
 </p>
 <iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
-        src="http://code-hub.org/run/24.31"></iframe>
+        src="canvas/bouncingBall/index.html"></iframe>
 
-<p>A bouncing ball that can be swung around with the mouse. Animation is paused when the mouse leaves the canvas. This example demonstrates:
+<p>A bouncing ball that can be swung around with the mouse. This example demonstrates:
 
 </p>
 <ul>
 <li>Listening for mouse events <code>mousedown</code>, <code>mouseup</code>, and <code>mouseenter</code></li>
+<li>Animation using <code>requestAnimationFrame</code> (through a cross-browser shim)</li>
 <li>Bouncing physics</li>
 <li>Velocity vectors</li>
 <li>Simulation</li>
