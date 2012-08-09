@@ -118,3 +118,7 @@ Multi-touch fingerpainting, where each touch gets its own random color. This exa
  * Responding to touch events in iOS devices
  * Tracking stateful objects based on touches
  * Generating random colors
+
+<div id="disqus_thread"></div>
+<script src="disqus.js"></script>
+
