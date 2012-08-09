@@ -36,6 +36,18 @@ Drawing the text "Hello Text!" in gray with a black stroke. This example demonst
  * Setting the stroke style
  * Filling and stroking text
 
+## The Sierpinski Triangle
+[run](canvas/sierpinskiTriangle/index.html)
+<iframe width="400" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/sierpinskiTriangle/index.html"></iframe>
+
+Drawing the Sierpinski Triangle. This example demonstrates:
+
+ * Drawing polygons
+ * Recursive geometric structures
+
+See also the [Sierpinski Carpet](canvas/sierpinskiCarpet/index.html)
+
 ## Digital Clock
 [run](canvas/digitalClock/index.html)
 <iframe width="400" height="70" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
@@ -45,7 +57,7 @@ Drawing the text representing the time of day. This example demonstrates:
 
  * Periodically clearing and redrawing the canvas using `setInterval`
  * Drawing a background color instead of clearing the canvas to white
- * Using colors picked by hand with (JSColor)[http://jscolor.com/]
+ * Using colors picked by hand with [JSColor](http://jscolor.com/)
  * Using the JavaScript Date API
  * Eliminating the margin around the canvas using inline CSS on the `body` tag
 
@@ -66,14 +78,41 @@ Drawing a circle that follows the mouse. This example demonstrates:
 A bouncing ball that can be swung around with the mouse. This example demonstrates:
 
  * Listening for mouse events `mousedown`, `mouseup`, and `mouseenter`
- * Animation using `requestAnimationFrame` (through a cross-browser shim)
+ * Animation using `requestAnimationFrame` (through a [cross-browser shim](http://paulirish.com/2011/requestanimationframe-for-smart-animating/))
  * Bouncing physics
  * Velocity vectors
  * Simulation
  * Drawing lines
  * Animating only when the mouse is over the Canvas
 
-<a href="./fractals/sierpinskiTriangle/index.html">The Sierpinski Triangle</a><br>
-<a href="./fractals/sierpinskiCarpet/index.html">The Sierpinski Carpet</a><br>
-<a href="./cellularAutomata/waveSimulation1D/index.html">1D Wave Simulation</a><br>
-<a href="./cellularAutomata/waveSimulation2D/index.html">2D Wave Simulation</a><br>
+## 1D Wave Simulation
+[run](canvas/waveSimulation1D/index.html)
+<iframe width="400" height="100" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/waveSimulation1D/index.html"></iframe>
+
+A 1-dimensional numeric simulation of [the Wave equation](http://en.wikipedia.org/wiki/Wave_equation#Investigation_by_numerical_methods). This example demonstrates:
+
+ * Resizing the canvas to the window (or containing iFrame)
+ * Visualizing and interacting with a dynamic simulation
+ * Transforming (x,y) coordinates between a model space and the display space
+ * Using multiple `script` tags
+
+## 2D Wave Simulation
+[run](canvas/waveSimulation2D/index.html)
+<iframe width="400" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/waveSimulation2D/index.html"></iframe>
+
+A 2-dimensional numeric simulation of [the Wave equation](http://en.wikipedia.org/wiki/Wave_equation#Investigation_by_numerical_methods). This example demonstrates:
+
+ * An interactive grid
+ * Using luminance to visualize values
+
+## Multi-touch Fingerpainting
+[run](mobile/multiTouchFingerpainting/index.html)
+<iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="mobile/multiTouchFingerpainting/index.html"></iframe>
+
+Multi-touch fingerpainting, where each touch gets its own random color. This example demonstrates:
+
+ * Responding to touch events in iOS devices
+ * Tracking stateful objects based on touches

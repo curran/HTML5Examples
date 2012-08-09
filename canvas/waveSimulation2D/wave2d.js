@@ -11,18 +11,32 @@ var cellWidth = 1 / (gridSize-1) * canvas.width;
 var cellHeight = 1 / (gridSize-1) * canvas.height;
 
 var mouseX, mouseY, mouseDown;
+var animate = false;
 
+function executeFrame(){
+  if(animate)
+    requestAnimFrame(executeFrame);
+  clearCanvas();
+  drawCells();
+  iterateSimulation();
+  executeMouseInteraction();
+};
+
+// Store the color strings as an object re-use optimization.
+// (otherwise new string objects would be created for each color each frame)
 var grayStrings = [];
 for(var gray = 0;gray < 255; gray++){
+    // this transforms strings from 'rgb(255,190,201)' to '#FF564B'
     c.fillStyle = 'rgb('+gray+','+gray+','+gray+')';
+    // store the colors of the form '#FF564B'
     grayStrings.push(c.fillStyle);
 }
-console.log(grayStrings[0]);
-
 
 for(var i = 0; i < gridSize; i++){
   for(var j = 0; j < gridSize; j++){
   
+    // Raise a single cell so the simulation is
+    // initialized with something that looks interesting
     var isRaisedCell = false;
     if(i === Math.floor(gridSize*1/4))
       if(j === Math.floor(gridSize*1/4))
@@ -33,7 +47,7 @@ for(var i = 0; i < gridSize; i++){
       //height: 0.5,
        
       // for an initial wave:
-      height: isRaisedCell ? 2 : initialHeight,
+      height: isRaisedCell ? 4 : initialHeight,
       
       velocity: 0
     });
@@ -57,11 +71,14 @@ function drawCells(){
       var y = j / (gridSize-1) * canvas.height;
       var gray = Math.floor(cell.height * 255);
       gray = gray > 255 ? 255 : gray < 0 ? 0 : gray;
-      //var rgb = gray | (gray << 8) | (gray << 16);
+      
+      // This commented method of defining the colors
+      // would create lots of new String objects.
+      // Better to re-use existing objects so that
+      // no memory is allocated/released each frame.
       //c.fillStyle = 'rgb('+gray+','+gray+','+gray+')';
       
       c.fillStyle = grayStrings[gray];
-      //console.log(c.fillStyle)
       c.fillRect(x,y,cellWidth+1,cellHeight+1);
     }
   }
@@ -114,24 +131,38 @@ function executeMouseInteraction(){
     cell.velocity = 0;
   }
 }
-(function executeFrame(){
-  requestAnimFrame(executeFrame);
-  
-  clearCanvas();
-  drawCells();
-  iterateSimulation();
-  executeMouseInteraction();
-})();
 
-canvas.addEventListener("mousemove",function(e){
-  mouseX = e.offsetX;
-  mouseY = e.offsetY;
-});
 canvas.addEventListener("mousedown",function(e){
   mouseDown = true;
   mouseX = e.offsetX;
   mouseY = e.offsetY;
 });
+
+canvas.addEventListener("mousemove",function(e){
+  mouseX = e.offsetX;
+  mouseY = e.offsetY;
+});
+
 canvas.addEventListener("mouseup",function(e){
   mouseDown = false;
 });
+
+// Kick off the animation when the mouse enters the canvas
+canvas.addEventListener('mouseover', function(e){
+  animate = true;
+  executeFrame();
+});
+
+// Pause animation when the mouse exits the canvas
+canvas.addEventListener("mouseout",function(e){
+  mouseDown = false;
+  animate = false;
+});
+
+// Iterate the simulation a couple of times
+// so the program shows something before animation starts.
+for(var i = 0; i < 7; i++)
+  iterateSimulation();
+
+// Draw the first frame
+executeFrame();

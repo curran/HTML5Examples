@@ -5,7 +5,7 @@ var pullStrength = 0.01;
 var dampeningFactor = 0.99;
 var initialHeight = 0.5;
 var cells = [];
-var gridSize = 200;
+var gridSize = 100;
 var conservationOfMassCorrection = 0;
 var cellWidth = 1 / (gridSize-1) * canvas.width;
 var mouseX, mouseY, mouseDown;
@@ -13,7 +13,6 @@ var animate = false;
 
 // This function executes once per animation frame
 function executeFrame(){
-  // Execute the next frame in 20ms
   if(animate)
     requestAnimFrame(executeFrame);
   clearCanvas();
@@ -104,18 +103,6 @@ function executeMouseInteraction(){
   }
 }
 
-// Kick off the animation when the mouse enters the canvas
-canvas.addEventListener('mouseover', function(e){
-  animate = true;
-  executeFrame();
-});
-
-// Pause animation when the mouse exits the canvas
-canvas.addEventListener("mouseout",function(e){
-  mouseDown = false;
-  animate = false;
-});
-
 // Record when the mouse is pressed
 canvas.addEventListener("mousedown",function(e){
   mouseDown = true;
@@ -132,6 +119,18 @@ canvas.addEventListener("mousemove",function(e){
 // Record when the mouse is released
 canvas.addEventListener("mouseup",function(e){
   mouseDown = false;
+});
+
+// Kick off the animation when the mouse enters the canvas
+canvas.addEventListener('mouseover', function(e){
+  animate = true;
+  executeFrame();
+});
+
+// Pause animation when the mouse exits the canvas
+canvas.addEventListener("mouseout",function(e){
+  mouseDown = false;
+  animate = false;
 });
 
 // Draw the first frame

@@ -45,6 +45,22 @@
 <li>Setting the stroke style</li>
 <li>Filling and stroking text</li>
 </ul>
+<h2>The Sierpinski Triangle</h2>
+<p><a href="canvas/sierpinskiTriangle/index.html">run</a>
+</p>
+<iframe width="400" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/sierpinskiTriangle/index.html"></iframe>
+
+<p>Drawing the Sierpinski Triangle. This example demonstrates:
+
+</p>
+<ul>
+<li>Drawing polygons</li>
+<li>Recursive geometric structures</li>
+</ul>
+<p>See also the <a href="canvas/sierpinskiCarpet/index.html">Sierpinski Carpet</a>
+
+</p>
 <h2>Digital Clock</h2>
 <p><a href="canvas/digitalClock/index.html">run</a>
 </p>
@@ -57,7 +73,7 @@
 <ul>
 <li>Periodically clearing and redrawing the canvas using <code>setInterval</code></li>
 <li>Drawing a background color instead of clearing the canvas to white</li>
-<li>Using colors picked by hand with (JSColor)[<a href="http://jscolor.com/">http://jscolor.com/</a>]</li>
+<li>Using colors picked by hand with <a href="http://jscolor.com/">JSColor</a></li>
 <li>Using the JavaScript Date API</li>
 <li>Eliminating the margin around the canvas using inline CSS on the <code>body</code> tag</li>
 </ul>
@@ -84,15 +100,51 @@
 </p>
 <ul>
 <li>Listening for mouse events <code>mousedown</code>, <code>mouseup</code>, and <code>mouseenter</code></li>
-<li>Animation using <code>requestAnimationFrame</code> (through a cross-browser shim)</li>
+<li>Animation using <code>requestAnimationFrame</code> (through a <a href="http://paulirish.com/2011/requestanimationframe-for-smart-animating/">cross-browser shim</a>)</li>
 <li>Bouncing physics</li>
 <li>Velocity vectors</li>
 <li>Simulation</li>
 <li>Drawing lines</li>
 <li>Animating only when the mouse is over the Canvas</li>
 </ul>
-<p><a href="./fractals/sierpinskiTriangle/index.html">The Sierpinski Triangle</a><br>
-<a href="./fractals/sierpinskiCarpet/index.html">The Sierpinski Carpet</a><br>
-<a href="./cellularAutomata/waveSimulation1D/index.html">1D Wave Simulation</a><br>
-<a href="./cellularAutomata/waveSimulation2D/index.html">2D Wave Simulation</a><br>
+<h2>1D Wave Simulation</h2>
+<p><a href="canvas/waveSimulation1D/index.html">run</a>
 </p>
+<iframe width="400" height="100" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/waveSimulation1D/index.html"></iframe>
+
+<p>A 1-dimensional numeric simulation of <a href="http://en.wikipedia.org/wiki/Wave_equation#Investigation_by_numerical_methods">the Wave equation</a>. This example demonstrates:
+
+</p>
+<ul>
+<li>Resizing the canvas to the window (or containing iFrame)</li>
+<li>Visualizing and interacting with a dynamic simulation</li>
+<li>Transforming (x,y) coordinates between a model space and the display space</li>
+<li>Using multiple <code>script</code> tags</li>
+</ul>
+<h2>2D Wave Simulation</h2>
+<p><a href="canvas/waveSimulation2D/index.html">run</a>
+</p>
+<iframe width="400" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/waveSimulation2D/index.html"></iframe>
+
+<p>A 2-dimensional numeric simulation of <a href="http://en.wikipedia.org/wiki/Wave_equation#Investigation_by_numerical_methods">the Wave equation</a>. This example demonstrates:
+
+</p>
+<ul>
+<li>An interactive grid</li>
+<li>Using luminance to visualize values</li>
+</ul>
+<h2>Multi-touch Fingerpainting</h2>
+<p><a href="mobile/multiTouchFingerpainting/index.html">run</a>
+</p>
+<iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="mobile/multiTouchFingerpainting/index.html"></iframe>
+
+<p>Multi-touch fingerpainting, where each touch gets its own random color. This example demonstrates:
+
+</p>
+<ul>
+<li>Responding to touch events in iOS devices</li>
+<li>Tracking stateful objects based on touches</li>
+</ul>
