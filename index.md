@@ -63,7 +63,7 @@ Drawing the text representing the time of day. This example demonstrates:
 
 ## Mouse Follower
 [run](canvas/mouseFollower/index.html)
-<iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+<iframe width="520" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
         src="canvas/mouseFollower/index.html"></iframe>
 
 Drawing a circle that follows the mouse. This example demonstrates:
@@ -72,7 +72,7 @@ Drawing a circle that follows the mouse. This example demonstrates:
 
 ## Bouncing Ball
 [run](canvas/bouncingBall/index.html)
-<iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+<iframe width="520" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
         src="canvas/bouncingBall/index.html"></iframe>
 
 A bouncing ball that can be swung around with the mouse. This example demonstrates:
@@ -85,9 +85,9 @@ A bouncing ball that can be swung around with the mouse. This example demonstrat
  * Drawing lines
  * Animating only when the mouse is over the Canvas
 
-## 1D Wave Simulation
+## Wave Simulation
 [run](canvas/waveSimulation1D/index.html)
-<iframe width="400" height="100" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+<iframe width="520" height="80" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
         src="canvas/waveSimulation1D/index.html"></iframe>
 
 A 1-dimensional numeric simulation of [the Wave equation](http://en.wikipedia.org/wiki/Wave_equation#Investigation_by_numerical_methods). This example demonstrates:
@@ -99,7 +99,7 @@ A 1-dimensional numeric simulation of [the Wave equation](http://en.wikipedia.or
 
 ## 2D Wave Simulation
 [run](canvas/waveSimulation2D/index.html)
-<iframe width="400" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+<iframe width="300" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
         src="canvas/waveSimulation2D/index.html"></iframe>
 
 A 2-dimensional numeric simulation of [the Wave equation](http://en.wikipedia.org/wiki/Wave_equation#Investigation_by_numerical_methods). This example demonstrates:
@@ -110,7 +110,7 @@ A 2-dimensional numeric simulation of [the Wave equation](http://en.wikipedia.or
 
 ## Multi-touch Fingerpainting
 [run](mobile/multiTouchFingerpainting/index.html) (supports multi-touch in iOS devices)
-<iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+<iframe width="520" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
         src="mobile/multiTouchFingerpainting/index.html"></iframe>
 
 Multi-touch fingerpainting, where each touch gets its own random color. This example demonstrates:
