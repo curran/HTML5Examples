@@ -1,14 +1,97 @@
-<html>
-  <head>
-    <title>HTML5 Visual Computing Examples</title>
-    <link href="markdown.css" rel="stylesheet"></link>
-  </head>
-  <body>
-    <h2>HTML5 Visual Computing Examples</h2>
-    <a href="./smileyFace/index.html">Smiley Face</a><br>
-    <a href="./fractals/sierpinskiTriangle/index.html">The Sierpinski Triangle</a><br>
-    <a href="./fractals/sierpinskiCarpet/index.html">The Sierpinski Carpet</a><br>
-    <a href="./cellularAutomata/waveSimulation1D/index.html">1D Wave Simulation</a><br>
-    <a href="./cellularAutomata/waveSimulation2D/index.html">2D Wave Simulation</a><br>
-  </body>
-</html>
+<p><link href="markdown.css" rel="stylesheet"></link>
+</p>
+<h1>HTML5 Canvas Code Examples</h1>
+<h2>Hello Canvas</h2>
+<p><a href="canvas/helloCanvas.html">run</a>
+</p>
+<iframe width="100" height="100" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/helloCanvas.html"></iframe>
+
+<p>Drawing a blue rectangle. This example demonstrates:
+
+</p>
+<ul>
+<li>Getting the canvas 2D context</li>
+<li>Setting the fill style</li>
+<li>filling a rectangle</li>
+<li>using the Canvas pixel coordinate space</li>
+</ul>
+<h2>Hello Text!</h2>
+<p><a href="canvas/helloText.html">run</a>
+</p>
+<iframe width="400" height="70" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/helloText.html"></iframe>
+
+<p>Drawing the text &quot;Hello Text!&quot; in gray with a black stroke. This example demonstrates:
+
+</p>
+<ul>
+<li>Using the Canvas text API</li>
+<li>Setting the font</li>
+<li>Setting the stroke style</li>
+<li>Filling and stroking text</li>
+</ul>
+<h2>Smiley Face</h2>
+<p><a href="canvas/smileyFace.html">run</a>
+</p>
+<iframe width="150" height="150" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+        src="canvas/smileyFace.html"></iframe>
+
+<p>Drawing a smiley face. This example demonstrates:
+
+</p>
+<ul>
+<li>The concept of paths</li>
+<li>Drawing circles</li>
+<li>Fill style vs. stroke style</li>
+</ul>
+<h2>Digital Clock</h2>
+<p><a href="canvas/digitalClock/index.html">run</a>
+</p>
+<iframe width="400" height="70" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/digitalClock/index.html"></iframe>
+
+<p>Drawing the text representing the time of day. This example demonstrates:
+
+</p>
+<ul>
+<li>Periodically clearing and redrawing the canvas using <code>setInterval</code></li>
+<li>Using the JavaScript Date API</li>
+<li>Eliminating the margin around the canvas using inline CSS on the <code>body</code> tag</li>
+</ul>
+<h2>Mouse Follower</h2>
+<p><a href="http://code-hub.org/run/23.12">run</a>, <a href="http://code-hub.org/edit/23.12">source</a>
+</p>
+<iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="http://code-hub.org/run/23.12"></iframe>
+
+<p>Drawing a circle that follows the mouse. This example demonstrates:
+
+</p>
+<ul>
+<li>Listening for mouse events <code>mousemove</code> and <code>mouseout</code></li>
+<li>Drawing circles using the Canvas functions <code>beginPath</code>, <code>arc</code>, and <code>fill</code></li>
+</ul>
+<h2>Bouncing Ball</h2>
+<p><a href="http://code-hub.org/run/24.31">run</a>, <a href="http://code-hub.org/edit/24.31">source</a>
+
+</p>
+<iframe width="400" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="http://code-hub.org/run/24.31"></iframe>
+
+<p>A bouncing ball that can be swung around with the mouse. Animation is paused when the mouse leaves the canvas. This example demonstrates:
+
+</p>
+<ul>
+<li>Listening for mouse events <code>mousedown</code>, <code>mouseup</code>, and <code>mouseenter</code></li>
+<li>Bouncing physics</li>
+<li>Velocity vectors</li>
+<li>Simulation</li>
+<li>Drawing lines</li>
+<li>Animating only when the mouse is over the Canvas</li>
+</ul>
+<p><a href="./fractals/sierpinskiTriangle/index.html">The Sierpinski Triangle</a><br>
+<a href="./fractals/sierpinskiCarpet/index.html">The Sierpinski Carpet</a><br>
+<a href="./cellularAutomata/waveSimulation1D/index.html">1D Wave Simulation</a><br>
+<a href="./cellularAutomata/waveSimulation2D/index.html">2D Wave Simulation</a><br>
+</p>
