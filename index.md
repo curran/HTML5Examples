@@ -138,6 +138,19 @@ A 2-dimensional numeric simulation of [the Wave equation](http://en.wikipedia.or
  * Using luminance to visualize values
  * Color object re-use optimization
 
+## Graphing Calculator
+[run](canvas/grapher/index.html)
+<iframe width="400" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/grapher/index.html"></iframe>
+
+A grapher that plots equations. This example demonstrates:
+
+ * Use of `eval()` (which generally should be avoided)
+ * Use of the hash portion of the URL for storing state
+ * Drawing simple tick marks
+ * Animation based on a time variable
+ * Placement of HTML form elements over a canvas element
+
 ## Multi-touch Fingerpainting
 [run](mobile/multiTouchFingerpainting/index.html) (supports multi-touch in iOS devices)
 <iframe width="520" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
@@ -149,6 +162,18 @@ Multi-touch fingerpainting, where each touch gets its own random color. This exa
  * Tracking stateful objects based on touches
  * Generating random colors
 
+## Multi-touch Air Hockey
+[run](mobile/iPadAirHockey/index.html) (supports multi-touch in iOS devices)
+<iframe width="520" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="mobile/iPadAirHockey/index.html"></iframe>
+
+An air hockey game for the iPad. This example demonstrates:
+
+ * Setting the page to be "mobile Web capable"
+   * This makes the page full screen when run from a shortcur saved to the iOS home screen
+ * Using an icon for saving to the home screen
+ * Setting the viewport to have a fixed scale
+ * Multi-touch manipulation of multiple objects simultaneously
+
 <div id="disqus_thread"></div>
 <script src="disqus.js"></script>
-

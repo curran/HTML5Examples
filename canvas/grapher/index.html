@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+        position: fixed;
+      }
+      form #controls {
+        position: absolute; 
+        top:    2px; 
+        left:   2px;
+      }
+      
+      #inputbox {
+        width:390;
+      }
+    </style>
+  </head>
+  <body>
+    <FORM NAME="form" ACTION="" METHOD="GET">
+      <div id="controls">
+        <INPUT id="inputbox" TYPE="text" NAME="inputbox" VALUE=""><br>
+        <INPUT TYPE="button" NAME="button" Value="Plot" 
+        onClick="plotButtonClicked(this.form.inputbox.value)">
+        <INPUT TYPE="button" NAME="button" Value="Share" 
+        onClick="shareButtonClicked()">
+      </div>
+    </FORM>
+    <canvas id="canvas" width="400" height="400" />
+    <script src="../../lib/requestAnimFrame.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
