@@ -85,6 +85,36 @@ A bouncing ball that can be swung around with the mouse. This example demonstrat
  * Drawing lines
  * Animating only when the mouse is over the Canvas
 
+## Bouncing Balls
+[run](canvas/bouncingBalls/index.html)
+<iframe width="520" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/bouncingBalls/index.html"></iframe>
+
+Many bouncing balls that can be swung around with the mouse. This example demonstrates:
+
+ * Multiple graphical objects with different colors
+ * Detecting which object is under the mouse
+ * A trailing effect from clearing the canvas with a semi-transparent rectangle
+
+## Tree Fractal
+[run](canvas/treeFractal/index.html)
+<iframe width="400" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/treeFractal/index.html"></iframe>
+
+An interactive tree fractal. This example demonstrates:
+
+ * Changing parameters based on the mouse location
+
+## Starfield
+[run](canvas/starfield/index.html)
+<iframe width="520" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/starfield/index.html"></iframe>
+
+A starfield with stars moving toward you. The mouse controls the focal length. This example demonstrates:
+
+ * Perspective projection
+ * The concept of focal length
+
 ## Wave Simulation
 [run](canvas/waveSimulation1D/index.html)
 <iframe width="520" height="80" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
