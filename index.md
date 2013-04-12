@@ -175,5 +175,12 @@ An air hockey game for the iPad. This example demonstrates:
  * Setting the viewport to have a fixed scale
  * Multi-touch manipulation of multiple objects simultaneously
 
+## Game of Life
+[run](canvas/gameOfLife_CoffeeScript/index.html)
+<iframe width="512" height="128" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        src="canvas/gameOfLife_CoffeeScript/index.html"></iframe>
+
+Conways Game of Life, in CoffeeScript. [View Source]()
+
 <div id="disqus_thread"></div>
 <script src="disqus.js"></script>
