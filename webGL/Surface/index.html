@@ -1,0 +1,79 @@
+
+
+<html>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute  vec4 vPosition;
+attribute  vec4 vNormal;
+varying vec4 color;
+
+uniform vec4 AmbientProduct, DiffuseProduct, SpecularProduct;
+uniform mat4 ModelView;
+uniform mat4 Projection;
+uniform vec4 LightPosition;
+uniform float Shininess;
+void main()
+{
+
+    vec3 pos = -(ModelView * vPosition).xyz;
+    vec3 light = LightPosition.xyz;
+    vec3 L = normalize( light - pos );
+
+	
+    vec3 E = normalize( -pos );
+    vec3 H = normalize( L + E );
+
+    // Transform vertex normal into eye coordinates
+       
+    vec3 N = normalize( (ModelView*vNormal).xyz);
+
+    // Compute terms in the illumination equation
+    vec4 ambient = AmbientProduct;
+
+    float Kd = max( dot(L, N), 0.0 );
+    vec4  diffuse = Kd*DiffuseProduct;
+
+    float Ks = pow( max(dot(N, H), 0.0), Shininess );
+    vec4  specular = Ks * SpecularProduct;
+    
+    if( dot(L, N) < 0.0 ) {
+	specular = vec4(0.0, 0.0, 0.0, 1.0);
+    } 
+
+    gl_Position = Projection * ModelView * vPosition;
+    
+    color = ambient + diffuse +specular;
+    
+    color.a = 1.0;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+#ifdef GL_ES
+precision highp float;
+#endif
+
+
+varying vec4 color;
+
+void
+main()
+{
+    gl_FragColor = color;
+    // = vec4(1.0, 0.0, 0.0, 1.0);
+}
+</script>
+
+<script type="text/javascript" src="http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/CODE/WebGL/Common/webgl-utils.js"></script>
+<script type="text/javascript" src="http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/CODE/WebGL/Common/initShaders.js"></script>
+
+<script type="text/javascript" src="http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/CODE/WebGL/Common/glMatrixEA.js"></script>
+
+<body>
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<script src="script.js"></script>
+</body>
+</html>

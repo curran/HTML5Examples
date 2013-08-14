@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+    <title>Rotating Cube</title>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec4 vColor;
+varying vec4 color;
+
+uniform mat4 projection;
+
+void main() 
+{ 
+  color = vColor;
+  gl_Position = projection * vPosition;
+} 
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec4 color;
+
+void
+main()
+{
+  gl_FragColor = color;
+}
+</script>  
+  
+
+<script type="text/javascript" src="http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/CODE/WebGL/Common/glMatrixEA.js"></script>
+<script type="text/javascript" src="http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/CODE/WebGL/Common/initShaders.js"></script>
+<script type="text/javascript" src="http://www.cs.unm.edu/~angel/BOOK/INTERACTIVE_COMPUTER_GRAPHICS/SIXTH_EDITION/CODE/WebGL/Common/webgl-utils.js"></script>
+
+</head>
+
+<body style="margin:0;">
+<canvas id="gl-canvas" width="512" height="512"></canvas>
+<script src="script.js"></script>
+</body>

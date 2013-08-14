@@ -1,0 +1,6 @@
+This directory contains WebGL examples:
+
+ * Rotating Cube ([run it](http://umlcomputergraphics.github.com/GraphicsProject/WebGLExamples/RotatingCube/index.html) | [source](https://github.com/UMLComputerGraphics/GraphicsProject/blob/gh-pages/WebGLExamples/RotatingCube/script.js)) - Demonstrates a colored cube with smooth mouse-driven rotation.
+ * Flythrough ([run it](http://umlcomputergraphics.github.com/GraphicsProject/WebGLExamples/Flythrough/index.html) | [source](https://github.com/UMLComputerGraphics/GraphicsProject/blob/gh-pages/WebGLExamples/Flythrough/script.js)) - A grid of colored cubes with mouse-driven flythrough navigation.
+ * Surface ([run it](http://umlcomputergraphics.github.com/GraphicsProject/WebGLExamples/Surface/index.html) | [source](https://github.com/UMLComputerGraphics/GraphicsProject/blob/gh-pages/WebGLExamples/Surface/script.js)) - A parametric surface with lighting and mouse-driven rotation.
+ * Earth ([run it](http://umlcomputergraphics.github.com/GraphicsProject/WebGLExamples/Earth/main/earth.html) | [source](https://github.com/UMLComputerGraphics/GraphicsProject/blob/gh-pages/WebGLExamples/Earth/main/app.js)) - Demonstrates a textured sphere, smooth rotation, how to switch textures, and how to implement partial transparency.

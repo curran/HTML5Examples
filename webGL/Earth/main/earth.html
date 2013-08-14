@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <script id="vertex-shader" type="x-shader/x-vertex">
+      attribute  vec2 sphereCoords;
+        
+      varying vec2 vTextureCoord;
+
+      const float BACK = -1.0;
+      const float FRONT = 1.0;
+      // `renderPass` gets either FRONT or BACK
+      uniform float renderPass;
+      // `draw` gets set depending on the position of the vertex.
+      //
+      // * if `renderPass` is BACK, `draw` is true for back facing vertices.
+      // * if `renderPass` is FRONT, `draw` is true for front facing vertices.
+      varying float draw;
+
+      uniform mat4 ModelView;
+      uniform mat4 Projection;
+      uniform float time;
+      const float PI = 3.14159265359;
+      void main()
+      {
+          // use (1 - ...) here so the world is not upside down
+          float theta = (1.0 - sphereCoords.y) * PI;
+          float phi = sphereCoords.x * PI * 2.0;
+
+          // Uncommenting these lines with make the earth a crazy morphing shape
+          /*
+          float waveOffset = time * 5.0;
+          float frequency = sin(time) * 5.0 + 7.0;
+          float s = sin(theta * frequency + waveOffset);
+          float c = cos(phi * frequency + waveOffset);
+          float p = sin(time) / 2.0 + 0.5;
+          float horizontalRidges = p*s / 10.0;
+          float rho = 0.8 + horizontalRidges + (1.0-p)*c/10.0;
+          */
+
+          // 0.95 is chosen as the diameter of the earth,
+          // so that it fits comfortably on the screen 
+          // and is not flush to the edge,
+          // which it would be if the value were 1.
+          float rho = 0.95;
+
+          // from http://en.wikipedia.org/wiki/Spherical_coordinate_system
+          float x = rho * sin(theta) * cos(phi);
+          float y = rho * sin(theta) * sin(phi);
+          float z = rho * cos(theta);
+          vec4 point = vec4(x, y, z, 1);
+          gl_Position = Projection * ModelView * point;
+          draw = renderPass * gl_Position.z / gl_Position.w;
+          vTextureCoord = sphereCoords;
+      }
+    </script>
+    <script id="fragment-shader" type="x-shader/x-fragment">
+      #ifdef GL_ES
+      precision highp float;
+      #endif
+
+      varying vec2 vTextureCoord;
+      varying float draw;
+      uniform sampler2D uSampler;
+      uniform float time;
+
+      const float transparentKey = 250.0/255.0;
+      const float transparencyThreshold = 0.001;
+      const float OPAQUE = 1.0;
+      const float SEMI_TRANSPARENT = 0.05;
+      const float fadeFactor = 0.1;
+
+      void main()
+      {
+        vec4 color = texture2D(uSampler,vTextureCoord);
+        if(draw < 0.0){
+          // Visible
+          float dr = color.r - transparentKey;
+          float dg = color.g - transparentKey;
+          float db = color.b - transparentKey;
+          float distance = dr * dr + dg * dg + db * db;
+          // Threshold picked to optimize the ocean-land split
+          if(distance < transparencyThreshold){
+            color.a = -draw * fadeFactor;
+          }
+        }
+        else{
+          // Not visible
+          color.a = 0.0;
+        }
+        gl_FragColor = color;
+      }
+    </script>
+    <script type="text/javascript" src="../js/webgl-utils.js"></script>
+    <script type="text/javascript" src="../js/initShaders.js"></script>
+    <script type="text/javascript" src="../js/glMatrixEA.js"></script>
+  </head>
+  <body style="margin:0;">
+    <center>
+      <canvas id="gl-canvas" width="658" height="658"></canvas>
+    </center>
+    <script src="app.js"> </script>
+  </body>
+</html>
