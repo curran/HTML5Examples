@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<!--
+Web Audio API example.
+By Curran Kelleher 10/30/2013
+Draws from:
+http://www.html5rocks.com/en/tutorials/webaudio/intro/
+http://stuartmemo.com/making-sine-square-sawtooth-and-triangle-waves/
+https://dvcs.w3.org/hg/audio/raw-file/tip/webaudio/specification.html
+http://www.html5rocks.com/en/tutorials/audio/scheduling/
+-->
+<title>Web Audio Example</title>
+<script>  
+(function () {
+  
+  window.addEventListener('load', init, false);
+  function init() {
+    var context;
+    try {
+      window.AudioContext = window.AudioContext||window.webkitAudioContext;
+      launchApp(new AudioContext());
+    }
+    catch(e) {
+      alert('Web Audio API is not supported in this browser');
+    }
+  }
+  
+  function launchApp(context) {
+    var nextNoteTime = context.currentTime,
+        scheduleAheadTime = 100,
+        pollTime = 60,
+        current16thNote = 0,
+        tempo = 120,
+        voices = [
+          Voice(60,  "1       1 1     "),
+          Voice(120, "    1  1    1   "),
+          Voice(240, "1  1  1  1  1 1 "),
+          Voice(480, "  1  1     1    ")
+        ];
+    
+    function Voice(frequency, pattern){
+      var oscillator = context.createOscillator(),
+          gain = context.createGain();
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      gain.gain.value = 0;
+      oscillator.start(0);
+      oscillator.frequency.value = frequency;
+      return {
+        pattern: pattern,
+        gain: gain.gain
+      };
+    }
+    
+    function scheduleEnvelope(time, param) {
+      var attack = 0.001,
+          release = 0.2;
+      param.setValueAtTime(0, time);
+      param.linearRampToValueAtTime(1, time + attack);
+      param.linearRampToValueAtTime(0, time + attack + release);
+    }
+    
+    function nextNote() {
+      var secondsPerBeat = 60 / tempo;
+      nextNoteTime += 0.25 * secondsPerBeat;
+      current16thNote = (current16thNote + 1) % 16;
+    }
+    
+    setInterval(function () {
+      while (nextNoteTime < context.currentTime + scheduleAheadTime ) {
+        voices.forEach( function (voice) {
+          console.log(voice);
+          if (voice.pattern[current16thNote] !== ' ') {
+            scheduleEnvelope( nextNoteTime, voice.gain );
+          }
+        });
+        nextNote();
+      }
+    }, pollTime);
+  }
+}());
+</script>
+</head>
+<body>
+</body>
+</html>
