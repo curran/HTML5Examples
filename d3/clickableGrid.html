@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<!--
+A D3 clickable grid example.
+By Curran Kelleher 10/31/2013
+Draws from:
+http://www.w3schools.com/svg/svg_rect.asp
+http://d3js.org/
+-->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<title>D3 Grid Test</title>
+  <style>
+    rect {
+      stroke:black;
+      stroke-width:2
+    }
+    .on {
+      fill:gray;
+    }
+    .off {
+      fill:lightgray;
+    }
+  </style>
+</head>
+<body>
+  <div id="grid"></div>
+  <script>
+(function () {
+  var div = d3.select('#grid'),
+      svg = div.append('svg'),
+      n = 10,
+      m = 10,
+      data = generateGridCoords(),
+      width = 500,
+      height = 500,
+      padding = 0.1,
+      roundedCornerSize = 10,
+      x = d3.scale.ordinal(),
+      y = d3.scale.ordinal();
+  
+  function generateGridCoords () {
+    var i, j, data = [];
+    for(i = 0; i < n; i++) {
+      for(j = 0; j < m; j++) {
+        data.push({
+          i: i,
+          j: j,
+          on: false
+        });
+      }
+    }
+    return data;
+  }
+  
+  function updateGrid () {
+    var rects = svg.selectAll('rect').data(data);
+    
+    x.domain(d3.range(n));
+    y.domain(d3.range(m));
+    x.rangeBands([0, width], padding);
+    y.rangeBands([0, height], padding);
+    
+    rects.enter().append('rect')
+      .attr('rx', roundedCornerSize)
+      .attr('ry', roundedCornerSize);
+    rects
+      .attr('x', function (d) { return x(d.i); })
+      .attr('y', function (d) { return y(d.j); })
+      .attr('width', x.rangeBand())
+      .attr('height', y.rangeBand())
+      .attr('class', function (d) {
+        return d.on ? 'on' : 'off';
+      });
+    rects.on('click', function (d) {
+      d.on = !d.on;
+      updateGrid();
+    });
+  }
+  
+  updateGrid();
+}());
+  </script>
+</body>
+</html>
