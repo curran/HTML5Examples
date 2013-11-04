@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
+<meta charset=utf-8 />
+<!--
+Web Audio API example.
+By Curran Kelleher 10/30/2013
+Draws from:
+http://www.html5rocks.com/en/tutorials/webaudio/intro/
+http://stuartmemo.com/making-sine-square-sawtooth-and-triangle-waves/
+https://dvcs.w3.org/hg/audio/raw-file/tip/webaudio/specification.html
+http://www.html5rocks.com/en/tutorials/audio/scheduling/
+-->
+<title>Web Audio Example</title>
+<style>
+  rect {
+    stroke:black;
+    stroke-width:2
+  }
+  .on {
+    fill:gray;
+  }
+  .off {
+    fill:lightgray;
+  }
+</style>
+</head>
+<body>
+  <div id="grid"></div>
+  <script>
+    
+// Polyfill for Web Audio API.
+window.AudioContext = window.AudioContext||window.webkitAudioContext;
+
+function Sequencer (numVoices, numBeats, noteOn) {
+  var context = new AudioContext();
+  
+  var nextNoteTime = context.currentTime,
+      scheduleAheadTime = 0.1,//in seconds
+      pollTime = 60,
+      current16thNote = 0,
+      tempo = 120,
+      baseFreq = 440 / 10,
+      voices = _.map(_.range(numVoices), function (i) {
+        return Voice(Math.pow(2, i) * baseFreq);
+      });
+  
+  function Voice(frequency){
+    var oscillator = context.createOscillator(),
+        gain = context.createGain();
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+    gain.gain.value = 0;
+    oscillator.start(0);
+    oscillator.frequency.value = frequency;
+    return {
+      gain: gain.gain
+    };
+  }
+  
+  function scheduleEnvelope(time, param) {
+    var attack = 0.001,
+        release = 0.2;
+    param.setValueAtTime(0, time);
+    param.linearRampToValueAtTime(1, time + attack);
+    param.linearRampToValueAtTime(0, time + attack + release);
+  }
+  
+  function nextNote() {
+    var secondsPerBeat = 60 / tempo;
+    nextNoteTime += 0.25 * secondsPerBeat;
+    current16thNote = (current16thNote + 1) % 16;
+  }
+  
+  setInterval(function () {
+    var i = 0, voice;
+    while (nextNoteTime < context.currentTime + scheduleAheadTime ) {
+      for(i = 0; i < numVoices; i++) {
+        voice = voices[i];
+        if (noteOn(i, current16thNote)) {
+          scheduleEnvelope( nextNoteTime, voice.gain );
+        }
+      }
+      nextNote();
+    }
+  }, pollTime);
+}
+
+function Grid(numVoices, numBeats) {
+  var div = d3.select('#grid'),
+      svg = div.append('svg'),
+      data = generateGridCoords(),
+      index = generateIndex(),
+      width = 500,
+      height = 200,
+      padding = 0.1,
+      roundedCornerSize = 10,
+      x = d3.scale.ordinal(),
+      y = d3.scale.ordinal();
+  
+  function generateGridCoords () {
+    var i, j, data;
+    if (location.hash) {
+      data = getDataFromURLHash();
+    } else {
+      data = [];
+      for(i = 0; i < numBeats; i++) {
+        for(j = 0; j < numVoices; j++) {
+          data.push({
+            i: i,
+            j: j,
+            on: Math.random() < 0.2
+          });
+        }
+      }
+    }
+    return data;
+  }
+
+  function getDataFromURLHash () {
+    return JSON.parse(location.hash.substr(1));
+  }
+
+  function setURLHashFromData (data) {
+    location.hash = '#' + JSON.stringify(data);
+  }
+  
+  function generateIndex () {
+    var index = {};
+    data.forEach(function (d) {
+      index[genKey(d.i, d.j)] = d;
+    });
+    return index;
+  }
+                 
+  function genKey(i, j) {
+    return i + " " + j;
+  }
+  
+  function updateGrid () {
+    var rects = svg.selectAll('rect').data(data);
+    
+    x.domain(d3.range(numBeats));
+    y.domain(d3.range(numVoices));
+    x.rangeBands([0, width], padding);
+    y.rangeBands([0, height], padding);
+    
+    rects.enter().append('rect')
+      .attr('rx', roundedCornerSize)
+      .attr('ry', roundedCornerSize);
+    rects
+      .attr('x', function (d) { return x(d.i); })
+      .attr('y', function (d) { return y(d.j); })
+      .attr('width', x.rangeBand())
+      .attr('height', y.rangeBand())
+      .attr('class', function (d) {
+        return d.on ? 'on' : 'off';
+      });
+    rects.on('click', function (d) {
+      d.on = !d.on;
+      updateGrid();
+      setURLHashFromData(data);
+    });
+  }
+  
+  function noteOn(voice, beat) {
+    return index[genKey(beat, voice)].on;
+  }
+  
+  updateGrid();
+  return {noteOn: noteOn};
+}
+
+var numVoices = 8,
+    numBeats = 16,
+    grid = Grid(numVoices, numBeats),
+    sequencer = Sequencer(numVoices, numBeats, function(voice, beat){
+      return grid.noteOn(voice, beat);
+    });
+  </script>
+</body>
+</html>
