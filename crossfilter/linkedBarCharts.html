@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+<!-- 
+A reusable bar chart example using D3.js
+By Curran Kelleher 11/6/2013
+ 
+Draws from:
+
+Towards Reusable Charts
+http://bost.ocks.org/mike/chart/
+
+Bar Chart
+http://bl.ocks.org/mbostock/3885304
+
+Margin Conventions
+http://bl.ocks.org/mbostock/3019563
+
+https://github.com/square/crossfilter/wiki/API-Reference
+https://github.com/square/crossfilter/blob/gh-pages/index.html
+http://blog.rusty.io/2012/09/17/crossfilter-tutorial/
+-->
+    <title>Linked Bar Charts: D3 Crossfilter Example</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.9/d3.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.1/crossfilter.min.js"></script>
+    <style>
+      #chart1 {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        width: 100%;
+        height: 50%;
+      }
+      #chart2 {
+        position: fixed;
+        top: 50%;
+        right: 0px;
+        width: 100%;
+        height: 50%;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+      /* Turn off the horizontal line for the X axis. */
+      .x.axis path {
+        display: none;
+      }
+
+      /* Turn off the vertical tick mark lines for the X axis. */
+      .x.axis .tick line {
+        display: none;
+      }
+      
+      /* Define the colors used for selected bars. */
+      .selected {
+        fill: black
+      }
+      .notselected {
+        fill: gray
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chart1"></div>
+    <div id="chart2"></div>
+    <script>
+(function init(){
+  // Pass an array of objects into the crossfilter constructor.
+  var payments = crossfilter([
+        {date: "2011-11-14T16:17:54Z", quantity: 2, total: 190, tip: 100, type: "tab"},
+        {date: "2011-11-14T16:20:19Z", quantity: 2, total: 190, tip: 100, type: "tab"},
+        {date: "2011-11-14T16:28:54Z", quantity: 1, total: 300, tip: 200, type: "visa"},
+        {date: "2011-11-14T16:30:43Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+        {date: "2011-11-14T16:48:46Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+        {date: "2011-11-14T16:53:41Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+        {date: "2011-11-14T16:54:06Z", quantity: 1, total: 100, tip: 0, type: "cash"},
+        {date: "2011-11-14T16:58:03Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+        {date: "2011-11-14T17:07:21Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+        {date: "2011-11-14T17:22:59Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+        {date: "2011-11-14T17:25:45Z", quantity: 2, total: 200, tip: 0, type: "cash"},
+        {date: "2011-11-14T17:29:52Z", quantity: 1, total: 200, tip: 100, type: "visa"}
+      ]),
+      type = payments.dimension(function(d) { return d.type; }),
+      types = type.group().reduceCount(),
+      quantity = payments.dimension(function(d) { return d.quantity; }),
+      quantities = quantity.group().reduceCount();
+      
+  var chart1 = barChart('chart1')
+        .yAxisLabelText('number of transactions')
+        .on('selection', function (selectedKeys) {
+          if(Object.keys(selectedKeys).length === 0) {
+            type.filterAll();
+          } else {
+            type.filter(function (d) {
+              return selectedKeys[d];
+            });
+          }
+          updateCharts();
+        }),
+      chart2 = barChart('chart2')
+        .yAxisLabelText('number of transactions')
+        .on('selection', function (selectedKeys) {
+          if(Object.keys(selectedKeys).length === 0) {
+            quantity.filterAll();
+          } else {
+            quantity.filter(function (d) {
+              return selectedKeys[d];
+            });
+          }
+          updateCharts();
+        });
+  
+  
+  function updateCharts(){
+    chart1.data(types.all())();
+    chart2.data(quantities.all())();
+  }
+  updateCharts();
+  
+  // Update the chart on window resize.
+  window.addEventListener('resize', updateCharts);
+}());
+
+// Constructs a generic bar chart.
+function barChart (divId, yAxisLabelText) {
+  var div = d3.select('#' + divId),
+      svg = div.append('svg'),
+      g = svg.append('g'),
+      xAxisG = g.append('g').attr('class', 'x axis'),
+      yAxisG = g.append('g').attr('class', 'y axis'),
+      yAxisLabelText = '',
+      yAxisLabel = yAxisG.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 6)
+        .attr('dy', '.71em')
+        .style('text-anchor', 'end'),
+      x = d3.scale.ordinal(),
+      y = d3.scale.linear(),
+      xAxis = d3.svg.axis()
+        .scale(x)
+        .orient('bottom'),
+      yAxis = d3.svg.axis()
+        .scale(y)
+        .orient('left')
+        .outerTickSize(0),
+      padding = 0.1,
+      margin = {top: 10, right: 0, bottom: 25, left: 35},
+      
+      // Set up a "selection" event, fired when bars are
+      // selected or deselected.
+      dispatch = d3.dispatch('selection'),
+      selectedKeys = {},
+      data;
+
+  // Recomputes the chart when called.
+  // Also serves as the exported API object.
+  function my() {
+    // Grab the CSS-computed size of the div from the DOM.
+    var divStyle = window.getComputedStyle(div.node()),
+        divWidth  = Math.ceil(parseFloat(divStyle.width)),
+        divHeight = Math.ceil(parseFloat(divStyle.height)),
+
+        // Compute the inner width and height from the margin.
+        width = divWidth - margin.left - margin.right,
+        height = divHeight - margin.top - margin.bottom,
+        
+        bars;
+
+    // Set the dimensions of the SVG element (otherwise will not work in FireFox).
+    svg.attr('width', divWidth).attr('height', divHeight);
+
+    // Transform the SVG group according to the margin.
+    g.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    // Update the scale domains based on the data.
+    x.domain(data.map(function(d) { return d.key; }));
+    y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+    // Update the scale ranges based on the div dimensions.
+    x.rangeBands([0, width], padding, 0);
+    y.range([height, 0]);
+
+    // Compute the bars.
+    bars = g.selectAll('rect').data(data);
+    bars.enter().append('rect')
+      .on('click', function (d) {
+        if(selectedKeys[d.key]) {
+          delete selectedKeys[d.key];
+        } else {
+          selectedKeys[d.key] = true;
+        }
+        dispatch.selection(selectedKeys);
+        my();
+      });
+    bars
+      .attr('x', function (d) { return x(d.key); })
+      .attr('width', x.rangeBand())
+      .attr('y', function (d) { return y(d.value); })
+      .attr('height', function (d) { return height - y(d.value); })
+      .attr('class', function (d) {
+        return selectedKeys[d.key] ? 'selected' : 'notselected';
+      });
+    bars.exit().remove();
+
+    // Compute the axes.
+    xAxisG.attr('transform', 'translate(0,' + height + ')').call(xAxis);
+    yAxisG.call(yAxis);
+    
+    // Update the Y axis label.
+    yAxisLabel.text(yAxisLabelText);
+    
+    return my;
+  }
+
+  // Updates the data.
+  my.data = function (newData) {
+    data = newData;
+    return my; // for method chaining
+  }
+  
+  // Updates the y axis label.
+  my.yAxisLabelText = function (value) {
+    if (!arguments.length) return yAxisLabelText;
+    yAxisLabelText = value;
+    return my; // for method chaining
+  };
+
+  my = d3.rebind(my, dispatch, 'on');
+  return my;
+}
+    </script>
+  </body>
+</html>
