@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+<!-- 
+A reusable bar chart example using D3.js
+By Curran Kelleher 11/6/2013
+ 
+Draws from:
+
+Towards Reusable Charts
+http://bost.ocks.org/mike/chart/
+
+Bar Chart
+http://bl.ocks.org/mbostock/3885304
+
+Margin Conventions
+http://bl.ocks.org/mbostock/3019563
+-->
+    <title>D3 Reusable Bar Chart Example</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.9/d3.min.js"></script>
+    <style>
+      #chart {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+      /* Turn off the horizontal line for the X axis. */
+      .x.axis path {
+        display: none;
+      }
+
+      /* Turn off the vertical tick mark lines for the X axis. */
+      .x.axis .tick line {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chart"></div>
+    <script>
+(function init(){
+  var data = [
+    // Population in Billions as of 2012 (World Bank data)
+    // http://www.worldbank.org/
+      { key: 'Canada', value: 0.0348805}, 
+      { key: 'United States', value: 0.313914}, 
+      { key: 'India', value: 1.2367},
+      { key: 'China', value: 1.3507}
+    ],
+    // Create a bar chart in the div with id "chart"
+    // and set the data on it, causing it to redraw.
+    yAxisLabelText = 'Population (in Billions) as of 2012',
+    chart = barChart('chart', yAxisLabelText).data(data);
+
+  // Update the chart on window resize.
+  window.addEventListener('resize', chart);
+}());
+
+// Constructs a generic bar chart.
+function barChart (divId, yAxisLabelText) {
+  var div = d3.select('#' + divId),
+      svg = div.append('svg'),
+      g = svg.append('g'),
+      xAxisG = g.append('g').attr('class', 'x axis'),
+      yAxisG = g.append('g').attr('class', 'y axis'),
+      yAxisLabel = yAxisG.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 6)
+        .attr('dy', '.71em')
+        .style('text-anchor', 'end')
+        .text(yAxisLabelText),
+      x = d3.scale.ordinal(),
+      y = d3.scale.linear(),
+      xAxis = d3.svg.axis()
+        .scale(x)
+        .orient('bottom'),
+      yAxis = d3.svg.axis()
+        .scale(y)
+        .orient('left')
+        .outerTickSize(0),
+      padding = 0.1,
+      margin = {top: 5, right: 0, bottom: 25, left: 35},
+      data;
+
+  // Recomputes the chart when called.
+  // Also serves as the exported API object.
+  function my() {
+    // Grab the CSS-computed size of the div from the DOM.
+    var divStyle = window.getComputedStyle(div.node()),
+        divWidth  = Math.ceil(parseFloat(divStyle.width)),
+        divHeight = Math.ceil(parseFloat(divStyle.height)),
+
+        // Compute the inner width and height from the margin.
+        width = divWidth - margin.left - margin.right,
+        height = divHeight - margin.top - margin.bottom,
+        bars;
+
+    // Set the dimensions of the SVG element (otherwise will not work in FireFox).
+    svg.attr('width', divWidth).attr('height', divHeight);
+
+    // Transform the SVG group according to the margin.
+    g.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    // Update the scale domains based on the data.
+    x.domain(data.map(function(d) { return d.key; }));
+    y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+    // Update the scale ranges based on the div dimensions.
+    x.rangeBands([0, width], padding, 0);
+    y.range([height, 0]);
+
+    // Compute the bars.
+    bars = g.selectAll('rect').data(data);
+    bars.enter().append('rect');
+    bars
+      .attr('x', function (d) { return x(d.key); })
+      .attr('width', x.rangeBand())
+      .attr('y', function (d) { return y(d.value); })
+      .attr('height', function (d) { return height - y(d.value); });
+    bars.exit().remove();
+
+    // Compute the axes
+    xAxisG.attr('transform', 'translate(0,' + height + ')').call(xAxis);
+    yAxisG.call(yAxis);
+  }
+
+  // Updates the data and recomputes the chart.
+  my.data = function (newData) {
+    data = newData;
+    my();
+    return my; // for method chaining
+  }
+
+  return my;
+}
+    </script>
+  </body>
+</html>
