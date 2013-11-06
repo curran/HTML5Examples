@@ -62,15 +62,19 @@ console.log(payments.groupAll().value()); // prints 12
 // Create a crossfilter dimension based on the type property.
 var paymentsByType = payments.dimension(function(d) { return d.type; });
 
+function printKeyValue (d) {
+  console.log(d.key + ': ' + d.value);
+}
+  
 // Summarize each type by their counts using group()
 var typeCounts = paymentsByType.group();
-typeCounts.top(Infinity).forEach(function (d) {
-  console.log(d.key + ': ' + d.value);
-  //Prints the following:
-  // tab: 8
-  // visa: 2
-  // cash: 2
-});
+  
+
+typeCounts.all().forEach(printKeyValue);
+//Prints the following:
+// tab: 8
+// visa: 2
+// cash: 2
 
 // Note: paymentsByType.group();
 // is the same as paymentsByType.group().reduceCount();
@@ -80,26 +84,22 @@ typeCounts.top(Infinity).forEach(function (d) {
 var typeTipSums = paymentsByType.group().reduceSum(function (d) {
   return d.tip;
 });
-typeTipSums.top(Infinity).forEach(function (d) {
-  console.log(d.key + ': ' + d.value);
-  //Prints the following:
-  // tab: 200
-  // visa: 300
-  // cash: 0
-});
+typeTipSums.all().forEach(printKeyValue);
+//Prints the following:
+// tab: 200
+// visa: 300
+// cash: 0
   
 // Apply a range filter on the "total" dimension.
 paymentsByTotal.filter([100, 200]);
 
 // Summarize each type by their sum tip amount again.
 // Notice how the filter on the other dimension takes effect.
-typeTipSums.top(Infinity).forEach(function (d) {
-  console.log(d.key + ': ' + d.value);
-  //Prints the following (different from the last time):
-  // tab: 200
-  // visa: 0
-  // cash: 0
-});
+typeTipSums.all().forEach(printKeyValue);
+//Prints the following (different from the last time):
+// tab: 200
+// visa: 0
+// cash: 0
 </script>
 </body>
 </html>
