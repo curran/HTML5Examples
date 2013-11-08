@@ -6,6 +6,9 @@
       An example illustrating how to use Backbone.Router.
       By Curran Kelleher 11/8/2013
 
+      Initially, with no hash (#) in the URL,
+      "default route" will be printed to the console.
+
       When you paste #search/kiwis to the end of the page URL,
       "help" will be printed to the console.
 
@@ -26,13 +29,17 @@ $(function () {
     routes: {
       'help':                 'help',    // #help
       'search/:query':        'search',  // #search/kiwis
-      'search/:query/p:page': 'search'   // #search/kiwis/p7
+      'search/:query/p:page': 'search',  // #search/kiwis/p7
+      '*path':                'default'  // no # in URL
     },
     help: function() {
       console.log('help');
     },
     search: function(query, page) {
       console.log('search(query = ' + query + ', page = ' + page + ')');
+    },
+    default: function() {
+      console.log('default route');
     }
   });
   new Router;
