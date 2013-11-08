@@ -13,28 +13,31 @@
       "search(query = kiwis, page = 7)" will be printed to the console.
       
       Draws from:
-      http://backbonejs.org/#Router
-      http://backbonetutorials.com/what-is-a-router/
+        http://backbonejs.org/#Router
+        http://backbonetutorials.com/what-is-a-router/
     -->
     <title>Backbone Router Example</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
     <script src="http://documentcloud.github.io/backbone/backbone-min.js"></script>
     <script>
-var Workspace = Backbone.Router.extend({
-  routes: {
-    'help':                 'help',    // #help
-    'search/:query':        'search',  // #search/kiwis
-    'search/:query/p:page': 'search'   // #search/kiwis/p7
-  },
-  help: function() {
-    console.log('help');
-  },
-  search: function(query, page) {
-    console.log('search(query = ' + query + ', page = ' + page + ')');
-  }
+$(function () {
+  var Router = Backbone.Router.extend({
+    routes: {
+      'help':                 'help',    // #help
+      'search/:query':        'search',  // #search/kiwis
+      'search/:query/p:page': 'search'   // #search/kiwis/p7
+    },
+    help: function() {
+      console.log('help');
+    },
+    search: function(query, page) {
+      console.log('search(query = ' + query + ', page = ' + page + ')');
+    }
+  });
+  new Router;
+  Backbone.history.start();
 });
-new Workspace;
-Backbone.history.start();
     </script>
   </head>
   <body>
