@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<!--
+An example illustrating basic use of Crossfilter.js.
+By Curran Kelleher 11/6/2013
+
+Draws from:
+https://github.com/square/crossfilter/wiki/API-Reference
+https://github.com/square/crossfilter/blob/gh-pages/index.html
+http://blog.rusty.io/2012/09/17/crossfilter-tutorial/
+-->
+<title>Crossfilter Fundamentals</title>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.1/crossfilter.min.js"></script>
+</head>
+<body>
+<script>
+// Pass an array of objects into the crossfilter constructor.
+var payments = crossfilter([
+  {date: "2011-11-14T16:17:54Z", quantity: 2, total: 190, tip: 100, type: "tab"},
+  {date: "2011-11-14T16:20:19Z", quantity: 2, total: 190, tip: 100, type: "tab"},
+  {date: "2011-11-14T16:28:54Z", quantity: 1, total: 300, tip: 200, type: "visa"},
+  {date: "2011-11-14T16:30:43Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+  {date: "2011-11-14T16:48:46Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+  {date: "2011-11-14T16:53:41Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+  {date: "2011-11-14T16:54:06Z", quantity: 1, total: 100, tip: 0, type: "cash"},
+  {date: "2011-11-14T16:58:03Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+  {date: "2011-11-14T17:07:21Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+  {date: "2011-11-14T17:22:59Z", quantity: 2, total: 90, tip: 0, type: "tab"},
+  {date: "2011-11-14T17:25:45Z", quantity: 2, total: 200, tip: 0, type: "cash"},
+  {date: "2011-11-14T17:29:52Z", quantity: 1, total: 200, tip: 100, type: "visa"}
+]);
+
+// Create a crossfilter "dimension" based on the total property.
+var paymentsByTotal = payments.dimension(function(d) { return d.total; });
+
+// Summarize the dimension by counting the number of entries.
+console.log(payments.groupAll().value()); // prints 12
+
+// Extract the top 5 entries ranked by total.
+console.log(paymentsByTotal.top(5)); // an array of 5 objects.
+
+// Extract all entries.
+console.log(paymentsByTotal.top(Infinity)); // an array of 12 objects.
+
+// Apply a range filter on this dimension.
+paymentsByTotal.filter([100, 200]);
+
+// Summarize the dimension with the updated filter
+console.log(payments.groupAll().value()); // prints 3
+
+// Extract all entries after applying the filter.
+console.log(paymentsByTotal.top(Infinity)); // an array of 3 objects.
+
+// Clear the filter.
+paymentsByTotal.filterAll();
+
+// Summarize the dimension by count with no filter.
+console.log(payments.groupAll().value()); // prints 12
+
+// Create a crossfilter dimension based on the type property.
+var paymentsByType = payments.dimension(function(d) { return d.type; });
+
+function printKeyValue (d) {
+  console.log(d.key + ': ' + d.value);
+}
+  
+// Summarize each type by their counts using group()
+var typeCounts = paymentsByType.group();
+  
+
+typeCounts.all().forEach(printKeyValue);
+//Prints the following:
+// tab: 8
+// visa: 2
+// cash: 2
+
+// Note: paymentsByType.group();
+// is the same as paymentsByType.group().reduceCount();
+
+// Summarize each type by their sum tip amount
+// using group() and reduceSum()
+var typeTipSums = paymentsByType.group().reduceSum(function (d) {
+  return d.tip;
+});
+typeTipSums.all().forEach(printKeyValue);
+//Prints the following:
+// tab: 200
+// visa: 300
+// cash: 0
+  
+// Apply a range filter on the "total" dimension.
+paymentsByTotal.filter([100, 200]);
+
+// Summarize each type by their sum tip amount again.
+// Notice how the filter on the other dimension takes effect.
+typeTipSums.all().forEach(printKeyValue);
+//Prints the following (different from the last time):
+// tab: 200
+// visa: 0
+// cash: 0
+</script>
+</body>
+</html>
