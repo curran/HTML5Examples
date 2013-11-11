@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>D3 Scatter Plot Example</title>
+  <script src="../lib/d3.v3.min.js"></script>
+  <style>
+
+    /* Make the visualization fill the page. */
+    #vis {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Style the axes. */
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000000;
+      shape-rendering: crispEdges;
+    }
+    .label {
+      font-size: 1.3em;
+    }
+    
+    /* Style the scatter plot dots. */
+    .dot {
+      fill: rgba(0, 100, 0, 0.4);
+      stroke: rgba(0, 0, 100, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <!-- The visualization will be injected into this div. -->
+  <div id="vis"></div>
+  <script>
+(function () {
+
+  // The top variables are configurable.
+  var margin = {top: 10, right: 20, bottom: 30, left: 35},
+      xField = "Sepal Width",
+      yField = "Petal Length",
+      circleRadius = 10,
+  
+      // Append an SVG element to the div.
+      div = document.getElementById('vis'),
+      svg = d3.select(div).append('svg'),
+      
+      // Append the SVG group that will be transformed according
+      // to the margin and will contain all visualization elements.
+      g = svg.append('g'),
+
+      // Create linear scales for use with the X and Y axes.
+      x = d3.scale.linear(),
+      y = d3.scale.linear(),
+
+      // Create the X and Y axes.
+      xAxis = d3.svg.axis().scale(x).orient('bottom'),
+      yAxis = d3.svg.axis().scale(y).orient('left'),
+
+      // Create the SVG groups for the X and Y axes.
+      xAxisG = g.append('g').attr('class', 'x axis'),
+      yAxisG = g.append('g').attr('class', 'y axis'),
+      
+      // Create the axes labels.
+      xAxisLabel = xAxisG.append('text'),
+      yAxisLabel = yAxisG.append('text'),
+
+      // Set up accessor functions to extract the X and Y fields.
+      getX = function (d) { return d[xField] },
+      getY = function (d) { return d[yField] },
+
+      // `data` will be populated after the CSV file has loaded.
+      data;
+
+  // Updates the visualization.
+  function update(){
+    
+    // Grab the CSS-computed size of the div from the DOM.
+    var divStyle = window.getComputedStyle(div),
+        divWidth  = Math.ceil(parseFloat(divStyle.width)),
+        divHeight = Math.ceil(parseFloat(divStyle.height)),
+        width = divWidth - margin.left - margin.right,
+        height = divHeight - margin.top - margin.bottom,
+        circles;
+    
+    // Set the width and height attributes on the svg element.
+    // If you don't do this it doesn't work in Firefox.
+    svg.attr('width', divWidth)
+       .attr('height', divHeight);
+    
+    // Apply the margin to the visualization SVG group element.
+    // Margin convention from http://bl.ocks.org/mbostock/3019563
+    g.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    // Update the scales based on the data and current div size.
+    x.domain([d3.min(data, getX), d3.max(data, getX)]);
+    y.domain([d3.min(data, getY), d3.max(data, getY)]);
+    x.range([0, width]);
+    y.range([0, height]);
+
+    // Draw the axes.
+    xAxisG
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(xAxis);
+    yAxisG.call(yAxis);
+
+    // Draw the axis labels.
+    // Technique from http://bl.ocks.org/mbostock/3887118
+    xAxisLabel 
+      .attr('class', 'label')
+      .attr('x', width)
+      .attr('y', -6)
+      .style('text-anchor', 'end')
+      .text(xField),
+    yAxisLabel
+      .attr('class', 'label')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 6)
+      .attr('dy', '.71em')
+      .style('text-anchor', 'end')
+      .text(yField);
+  
+    // Visualize the data entries as circles in a scatter plot:
+
+    // `circles` is a "D3 selection" that plays a special role in
+    // maintaining correspondence between data elements and DOM elements.
+    // See http://bost.ocks.org/mike/selection/
+    circles = g.selectAll('circle').data(data);
+
+    // The "enter" virtual selection acts upon only those data elements
+    // that do not yet have a corresponding SVG element. In this case,
+    // the first time `update()` is called, a <circle> element will be 
+    // appended to the <g> element for each object in the `data` array.
+    circles.enter().append('circle');
+
+    // The "dots" selection here acts on all SVG elements that have been
+    // created corresponding to each data entry.
+    circles
+    // Set attributes of the SVG circle elements corresponding to our data.
+    // see http://www.w3schools.com/svg/svg_circle.asp
+      .attr('class', 'dot')
+      .attr('cx', function (d) { return x(getX(d)); })
+      .attr('cy', function (d) { return y(getY(d)); })
+      .attr('r', circleRadius);
+    
+    // The "exit" virtual selection acts upon only those SVG elements that
+    // no longer have a corresponding data element. This only triggers 
+    // after data(arr) is called a second time with fewer entries in `arr`;
+    circles.exit().remove();
+    
+  }
+  
+  d3.csv('data/iris.csv', function (newData) {
+    
+    // Use this to see the structure of the data.
+    // console.log(JSON.stringify(data, null, 2));
+    
+    data = newData;
+    
+    // Initialize the visualization
+    update();
+
+    // Update on browser window resize.
+    window.addEventListener('resize', update);
+  });
+}());
+  </script>
+</body>
+</html>

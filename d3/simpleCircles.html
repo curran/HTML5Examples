@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>D3 Simple Example</title>
+    <script src="../lib/d3.v3.min.js"></script>
+  </head>
+  <body>
+    <svg id="vis" width="400" height="400"></svg>
+    <script>
+      
+var svg = d3.select('#vis'),
+    data = [
+      { x: 305, y: 162, r: 10, color: '#000000' },
+      { x: 80, y: 70, r: 53, color: '#FF0000' },
+      { x: 30, y: 250, r: 21, color: '#00FF00' }
+    ];
+    
+svg.selectAll('circle').data(data)
+  .enter().append('circle')
+  .attr('cx', function (d) { return d.x; })
+  .attr('cy', function (d) { return d.y; })
+  .attr('r', function (d) { return d.r; })
+  .attr('fill', function (d) { return d.color; });
+      
+    </script>
+  </body>
+</html>

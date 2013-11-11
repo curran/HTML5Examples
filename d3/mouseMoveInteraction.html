@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>D3 Interaction Example</title>
+  <script src="../lib/d3.v3.min.js"></script>
+  <style>
+
+    /* Make the visualization fill the page. */
+    #vis {
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Style the dots. */
+    .dot {
+      fill: rgba(0, 100, 0, 0.4);
+      stroke: rgba(0, 0, 100, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <!-- The visualization will be injecte into this div. -->
+  <div id="vis"></div>
+  <script>
+(function () {
+  // Get a reference to the div with id "vis"
+  var div = document.getElementById('vis'),
+      svg = d3.select(div).append('svg'),
+
+      // This also works:
+      // svg = d3.select('#vis').append('svg')
+      // , but it is done the other way because we need a reference later
+      // to the div in order to extract its size using the DOM API.
+
+      // Create linear scales for use with the X and Y axes.
+      // The default domain is [0, 1].
+      x = d3.scale.linear(),
+      y = d3.scale.linear(),
+
+      // Create an n-by-n grid of data elements.
+      n = 15,
+      data = [],
+
+      // The mouse coordinates are used to define the form shown.
+      // These variables are updated when the mouse moves.
+      mouseX = 0, 
+      mouseY = 0;
+
+  // Initialize the data such that each element has
+  // coordinates u and v that vary between 0 and 1.
+  d3.range(n).forEach(function (i) {
+    d3.range(n).forEach(function (j) {
+      data.push({
+        u: i / (n - 1),
+        v: j / (n - 1)
+      });
+    });
+  });
+
+  // Updates the visualization.
+  function update(){
+    
+    // Grab the CSS-computed size of the div from the DOM.
+    var divStyle = window.getComputedStyle(div),
+        width  = Math.ceil(parseFloat(divStyle.width)),
+        height = Math.ceil(parseFloat(divStyle.height)),
+        circles;
+    
+    // Set the width and height attributes on the svg element.
+    // If you don't do this it doesn't work in Firefox.
+    svg.attr('width', width)
+       .attr('height', height);
+
+    // Update the scales based on the current div size.
+    x.range([0, width]);
+    y.range([0, height]);
+
+    // `circles` is a "D3 selection" that plays a special role in
+    // maintaining correspondence between data elements and DOM elements.
+    // See http://bost.ocks.org/mike/selection/
+    circles = svg.selectAll('circle').data(data);
+
+    // The "enter" virtual selection acts upon only those data elements
+    // that do not yet have a corresponding SVG element. In this case,
+    // the first time `update()` is called, a <circle> element will be 
+    // appended to the <g> element for each object in the `data` array.
+    circles.enter().append('circle');
+
+    // The "dots" selection here acts on all SVG elements that have been
+    // created corresponding to each data entry.
+    circles
+    // Set attributes of the SVG circle elements corresponding to our data.
+    // see http://www.w3schools.com/svg/svg_circle.asp
+      .attr('class', 'dot')
+      .attr('cx', function (d) { return x(d.u); })
+      .attr('cy', function (d) { return y(d.v); })
+      .attr('r', function (d) {
+        var a = mouseX / width,
+            b = mouseY / height,
+            c = (Math.sin((d.u - a) * 10) + 1) * 10,
+            d = (Math.sin((d.v - b) * 10) + 1) * 10;
+        return c + d;
+      });
+    
+    // The "exit" virtual selection acts upon only those SVG elements that
+    // no longer have a corresponding data element. This only triggers 
+    // after data(arr) is called a second time with fewer entries in `arr`;
+    circles.exit().remove();
+    
+  }
+  
+  // Initialize the visualization.
+  update();
+
+  window.addEventListener('resize', update);
+
+  // Animate while the mouse is on the mage
+  window.addEventListener('mousemove', function (e) {
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+    update();
+  });
+
+}());
+  </script>
+</body>
+</html>
