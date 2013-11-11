@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset=utf-8 />
+  <!--
+    An example of dynamically positioning a DIV.
+    By Curran Kelleher 11/10/2013
+  -->
+  <title>Dynamic Positioning Example</title>
+    <style>
+      #errorLabel {
+        color: red;
+        position: fixed;
+        
+        /* This static CSS text positions the div. */
+        left: 100px;
+        top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="errorLabel">Human error!</div>
+    <script>
+
+/* Get the error label DOM element. */
+var errorLabel = document.getElementById('errorLabel');
+      
+/* Move the div randomly every second. */
+setInterval(function(){
+  var x = Math.random() * 300,
+      y = Math.random() * 300,
+      left = 'left: ' + x + 'px;',
+      top = 'top: ' + y + 'px;',
+      css = left + top;
+  
+  /* This dynamic CSS text repositions the div. */
+  errorLabel.setAttribute('style', css);
+}, 1000);
+      
+    </script>
+  </body>
+</html>
