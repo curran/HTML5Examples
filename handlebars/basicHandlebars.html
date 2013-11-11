@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <!--
+      A basic example that uses Handlebars.
+      By Curran Kelleher 11/11/2013
+
+      Draws from examples at http://handlebarsjs.com/
+    -->
+    <title>Basic Handlebars Example</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.js"></script>
+    <script id="entry-template" type="text/x-handlebars-template">
+      <h1>{{title}}</h1>
+      {{body}}
+    </script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script>
+      var source = $("#entry-template").html(),
+          template = Handlebars.compile(source),
+          context = {
+            title: "My New Post",
+            body: "This is my first post!"
+          },
+          html = template(context);
+      $("#content").html(html);
+    </script>
+  </body>
+</html>
