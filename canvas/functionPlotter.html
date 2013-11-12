@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <!--
+      An animated mathematical function plotter
+      using HTML5 Canvas and requestAnimationFrame.
+      
+      By Curran Kelleher 11/12/2013
+    -->
+    <title>Animated Function Plotter</title>
+  </head>
+  <body>
+    <canvas width="300" height="300" id="myCanvas"></canvas>
+    <script>
+var canvas = document.getElementById('myCanvas'),
+    c = canvas.getContext('2d'),
+    
+    // 't' is the time variable in the math function.
+    t = 0,
+    tIncrement = 0.1,   
+    
+    // There are n - 1 lines drawn to
+    // approximate the mathematical curve.
+    n = 100,
+    
+    // Define the window into math coordinates.
+    xMin = -10,
+    xMax = 10,
+    yMin = -10,
+    yMax = 10;
+
+(function animationloop(){
+  requestAnimationFrame(animationloop);
+  render();
+})();
+    
+function render(){
+  t += tIncrement;
+  c.clearRect(0, 0, canvas.width, canvas.height);
+  drawCurve();
+}
+
+function drawCurve(){
+  var x, y, i,
+      percentX, percentY,
+      pixelX, pixelY;
+  
+  c.beginPath();
+  for(i = 0; i < n; i++){
+    percentX = i / (n - 1);
+    x = percentX * (xMax - xMin) + xMin;
+    
+    // This is the math function plotted.
+    y = Math.sin(x * 2 + t) * x;
+    
+    percentY = (y - yMin) / (yMax - yMin);
+    pixelX = percentX * canvas.width;
+    pixelY = percentY * canvas.height
+    c.lineTo(pixelX, pixelY);
+  }
+  c.stroke();
+}
+    </script>
+  </body>
+</html>
