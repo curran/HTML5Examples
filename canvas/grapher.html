@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <!--
+      An animated interactive graphing calculator
+      using HTML5 Canvas and requestAnimationFrame.
+      
+      By Curran Kelleher 11/12/2013
+    -->
+    <title>Animated Graphing Calculator</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/mathjs/0.15.0/math.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  </head>
+  <body>
+    <form>
+      <input id="inputField">
+    </form>
+    <canvas width="300" height="300" id="myCanvas"></canvas>
+    <script>
+$(function(){
+  var canvas = document.getElementById('myCanvas'),
+      c = canvas.getContext('2d'),
+      
+      // 't' is the time variable in the math function.
+      t = 0,
+      tIncrement = 0.1,   
+      
+      // There are n - 1 lines drawn to
+      // approximate the mathematical curve.
+      n = 500,
+      
+      // Define the window into math coordinates.
+      xMin = -10,
+      xMax = 10,
+      yMin = -10,
+      yMax = 10,
+      
+      math = mathjs(),
+      expr = 'sin(x+t)*x',
+      scope = {},
+      tree,
+      
+      // 'f' is the math function plotted.
+      // Given x, f returns a value for y.
+      f = function(x){
+        scope.x = x;
+        scope.t = t;
+        return tree.eval();
+      },
+      input = $('#inputField');
+  
+  initInput();
+  startAnimation();
+        
+  function initInput(){
+    input.val(expr);
+    setExpr(expr);
+    input.keyup(function (event) {
+      setExpr(input.val());
+    });
+  }
+        
+  function setExpr(newExpr){
+    expr = newExpr;
+    tree = math.parse(expr, scope)
+    t = 0;
+  }
+  
+  function startAnimation(){
+    (function animationloop(){
+      requestAnimationFrame(animationloop);
+      render();
+    })();
+  }
+      
+  function render(){
+    t += tIncrement;
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    drawCurve();
+  }
+  
+  function drawCurve(){
+    var x, y, i,
+        percentX, percentY,
+        pixelX, pixelY;
+    
+    c.beginPath();
+    for(i = 0; i < n; i++){
+      percentX = i / (n - 1);
+      x = percentX * (xMax - xMin) + xMin;
+      
+      // This is the math function plotted.
+      y = f(x);
+      
+      percentY = 1-(y - yMin) / (yMax - yMin);
+      pixelX = percentX * canvas.width;
+      pixelY = percentY * canvas.height
+      c.lineTo(pixelX, pixelY);
+    }
+    c.stroke();
+  }
+});
+    </script>
+  </body>
+</html>
