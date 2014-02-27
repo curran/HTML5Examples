@@ -1,6 +1,7 @@
-// A scalability test for D3's force layout and SVG rendering.
+// The graph layout and visualization part of the
+// scalability test for D3's force layout and SVG rendering.
 //
-// Generates a scale free network using the Barabasi-Albert model.
+// Draws from http://bl.ocks.org/mbostock/4062045
 //
 // Curran Kelleher 2/27/2014
 function GraphVis(graph){
@@ -13,10 +14,6 @@ function GraphVis(graph){
         .linkDistance(5)
         .gravity(1)
         .size([width, height]),
-      drag = force.drag().on('dragstart', function (d) {
-        force.gravity(0);
-        d.fixed = true;
-      }),
       svg = d3.select('body').append('svg')
         .attr('width', width)
         .attr('height', height),

@@ -1,4 +1,7 @@
 // A simple static file server for development use.
+//
+// Curran Kelleher 2/27/2014
+//
 // Run with the shell command "node server.js".
 // (first install Express with the command "npm install express")
 // (first install Node.js, see https://github.com/joyent/node/wiki/Installation

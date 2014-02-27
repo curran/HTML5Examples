@@ -1,3 +1,9 @@
+// A program that profiles the performance of D3's force 
+// directed graph layout and SVG rendering by incrementally generating 
+// a scale free network based on the Barabási–Albert model.
+//
+// Curran Kelleher 2/27/2014
+
 // Create an empty graph data structure.
 var graph = {
       nodes:[],
@@ -32,6 +38,8 @@ var graph = {
 // by the BarabasiAlbert() initialization.
 addNodes(nodeStep - 2);
 
+// Each tick, compute the time it took
+// and add more nodes after every `tickSamples` iterations.
 graphVis.onTick(function(){
   var currentTime = Date.now();
   if(previousTime !== -1){
@@ -46,6 +54,7 @@ graphVis.onTick(function(){
   previousTime = currentTime;
 });
 
+// Adds an entry to the performance plot.
 function recordEntry(numNodes, avgTickTime){
   performancePlot.addEntry({
     numNodes: numNodes,
@@ -53,18 +62,21 @@ function recordEntry(numNodes, avgTickTime){
   });
 }
 
+// Computes the average of an array.
 function avg(arr){
   return _.reduce(arr, function(memo, num){
     return memo + num;
   }, 0) / arr.length;
 }
 
-// Add a number of nodes periodically.
+// Add a number of nodes.
 function addNodes(n){
   for(var i = 0; i < n; i++){
     barabasiAlbert.addNode();
   }
   graphVis.update();
 }
+
+// Call update once to initialize the plot.
 graphVis.update();
 
