@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Overseer Example</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <textarea id="editor"></textarea>
+    <script>
+      var socket = io(),
+          el = document.getElementById("editor");
+
+      // Whenever the user changes the text ...
+      el.addEventListener("keyup", function (e) {
+
+        // Grab the value from the DOM.
+        var value = (el.value);
+
+        // Send the value to the server.
+        socket.emit("message", value);
+      });
+
+      // Listen for messages from the server.
+      socket.on("message", function (value) {
+        console.log("received message " + value);
+        el.value = value;
+      })
+    </script>
+  </body>
+</html>
