@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- 
+      An interactive fractal experiment using HTML5 Canvas
+      Curran Kelleher 10/28/2014
+    -->
+    <title>JS Bin</title>
+  </head>
+  <body>
+    <canvas id="fractal" width="500" height="500"></canvas>
+    <script>
+var canvas = document.getElementById("fractal"),
+    ctx = canvas.getContext("2d"),
+    n = 95,
+    mouseX = 200, mouseY = 100
+    scaleFactor = 0.95;
+
+function redraw (){
+  var scale = 20,
+      angle = -mouseY / canvas.height * Math.PI / 8;
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  ctx.save();
+  ctx.translate(100, 100);
+  drawGeometry(scale, angle, n, false);
+  ctx.restore();
+}
+
+// The recursive fractal definition
+function drawGeometry(scale, angle, i, flip){
+  
+  
+  drawCircle(0, 0, scale / 2)
+  ctx.translate(scale, 0);
+  ctx.rotate(flip ? angle : -angle);
+  
+  if(i > 0){
+    ctx.save();
+    // Continue the current branch.
+    drawGeometry(scale * scaleFactor, angle, i-1, flip);
+    
+    // Create a new branch every 10 circles.
+    if(i % 10 === 0){
+      drawGeometry(scale * scaleFactor, angle, i-1, !flip);
+    }
+    ctx.restore();
+  }
+  
+}
+function drawCircle(x, y, radius){
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+  ctx.fill();
+}
+
+redraw();
+
+canvas.addEventListener("mousemove",function(e){
+  mouseX = e.x;
+  mouseY = e.y;
+  redraw();
+});
+    </script>
+  </body>
+</html>
